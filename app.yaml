@@ -3,7 +3,7 @@ name: agent-note
 version: 1.0.0
 description: Personal notes app with AI agent via Telegram
 author: 0xMaxMa
-source: https://github.com/0xMaxMa/agent-note
+source: https://github.com/0xMaxMa/app-agent-note
 commit: ""
 
 resources:
