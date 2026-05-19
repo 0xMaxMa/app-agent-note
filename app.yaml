@@ -4,7 +4,7 @@ version: 1.0.0
 description: Personal notes app with AI agent via Telegram
 author: 0xMaxMa
 source: https://github.com/0xMaxMa/app-agent-note
-commit: ""
+commit: "293f3079fcc1d80d0b96ecd109c695516ba2470c"
 
 resources:
   cpu: 0.5
