@@ -11,7 +11,7 @@ export async function DELETE(
 
   const result = await query(`DELETE FROM notes WHERE id = $1`, [id])
 
-  if (result.rowCount === 0) {
+  if ((result.rowCount ?? 0) === 0) {
     return Response.json({ error: 'note not found' }, { status: 404 })
   }
 
