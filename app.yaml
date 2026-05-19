@@ -1,0 +1,43 @@
+apiVersion: apps.getpod.ai/v1
+name: agent-note
+version: 1.0.0
+description: Personal notes app with AI agent via Telegram
+author: 0xMaxMa
+source: https://github.com/0xMaxMa/agent-note
+commit: ""
+
+resources:
+  cpu: 0.5
+  memory: 256M
+
+services:
+  app:
+    build: .
+    ports:
+      - name: web
+        container: 4000
+        type: web
+    environment:
+      - DATABASE_URL=postgres://notes:${DB_PASSWORD}@db:5432/notes
+      - DB_PASSWORD
+    depends_on: [db]
+    healthcheck:
+      test: wget -qO- http://localhost:4000/api/health
+      interval: 30s
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=notes
+      - POSTGRES_USER=notes
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U notes
+      interval: 10s
+
+  agent:
+    path: ./agent
+    name: agent-note-bot
