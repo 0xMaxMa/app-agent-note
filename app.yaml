@@ -28,7 +28,7 @@ services:
     resources:
       cpu: 0.25
       memory: 256M
-    cap_add: [CHOWN, SETUID, SETGID]
+    cap_add: [CHOWN, SETUID, SETGID, DAC_OVERRIDE, FOWNER]
     environment:
       - POSTGRES_DB=notes
       - POSTGRES_USER=notes
