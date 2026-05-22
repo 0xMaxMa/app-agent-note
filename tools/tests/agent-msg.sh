@@ -4,9 +4,8 @@ ENV_FILE="$(dirname "$0")/.env"
 
 MSG="${1:-hello}"
 
-BODY="{\"message\": \"${MSG}\", \"chat_id\": \"tools\""
-[ -n "$SESSION_ID" ] && BODY="${BODY}, \"session_id\": \"${SESSION_ID}\""
-BODY="${BODY}}"
+BODY=$(jq -n --arg msg "$MSG" --arg cid "tools" '{message: $msg, chat_id: $cid}')
+[ -n "$SESSION_ID" ] && BODY=$(printf '%s' "$BODY" | jq --arg sid "$SESSION_ID" '. + {session_id: $sid}')
 
 URL="http://localhost:10850/api/v1/agents/${AGENT_ID}/messages"
 
