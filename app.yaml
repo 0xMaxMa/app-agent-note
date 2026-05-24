@@ -4,13 +4,12 @@ version: 1.0.0
 description: Personal notes app with AI agent via Telegram
 author: 0xMaxMa
 
-resources:
-  cpu: 0.5
-  memory: 256M
-
 services:
   app:
     build: .
+    resources:
+      cpu: 0.5
+      memory: 128M
     ports:
       - name: web
         container: 4000
@@ -20,18 +19,22 @@ services:
       - DB_PASSWORD
     depends_on: [db]
     healthcheck:
-      test: wget -qO- http://localhost:4000/api/health
+      test: wget -qO- http://127.0.0.1:4000/api/health
       interval: 30s
 
   db:
     image: postgres:16-alpine
+    resources:
+      cpu: 0.25
+      memory: 256M
+    cap_add: [CHOWN, SETUID, SETGID, DAC_OVERRIDE, FOWNER]
     environment:
       - POSTGRES_DB=notes
       - POSTGRES_USER=notes
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - DB_PASSWORD
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
     healthcheck:
       test: pg_isready -U notes
       interval: 10s

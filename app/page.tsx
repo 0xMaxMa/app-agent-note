@@ -14,11 +14,13 @@ export default function Home() {
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
 
+  const BASE = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
   const fetchNotes = useCallback(async (q = '') => {
-    const url = q ? `/api/notes?q=${encodeURIComponent(q)}` : '/api/notes'
+    const url = q ? `${BASE}/api/notes?q=${encodeURIComponent(q)}` : `${BASE}/api/notes`
     const res = await fetch(url)
     setNotes(await res.json())
-  }, [])
+  }, [BASE])
 
   useEffect(() => { fetchNotes() }, [fetchNotes])
 
@@ -26,7 +28,7 @@ export default function Home() {
     e.preventDefault()
     if (!text.trim()) return
     setLoading(true)
-    await fetch('/api/notes', {
+    await fetch(`${BASE}/api/notes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text }),
@@ -37,7 +39,7 @@ export default function Home() {
   }
 
   const deleteNote = async (id: number) => {
-    await fetch(`/api/notes/${id}`, { method: 'DELETE' })
+    await fetch(`${BASE}/api/notes/${id}`, { method: 'DELETE' })
     fetchNotes(search)
   }
 
