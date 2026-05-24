@@ -12,7 +12,6 @@ services:
       memory: 128M
     ports:
       - name: web
-        host: 4000
         container: 4000
         type: web
     environment:
