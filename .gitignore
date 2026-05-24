@@ -1,6 +1,8 @@
 .env
 docker-compose.yml
+Dockerfile.agent
 tools/planning/
 .claude-gateway
 node_modules/
 postgres/
+agent/.sessions/
