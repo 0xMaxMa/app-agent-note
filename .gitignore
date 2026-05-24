@@ -6,3 +6,4 @@ tools/planning/
 node_modules/
 postgres/
 agent/.sessions/
+agent/CLAUDE.md
