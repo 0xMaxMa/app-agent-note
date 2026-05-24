@@ -2,13 +2,14 @@
 [ -f "$(dirname "$0")/.env" ] && source "$(dirname "$0")/.env"
 
 APP_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+APP_NAME=$(grep '^name:' "${APP_DIR}/app.yaml" | awk '{print $2}')
+
+body=$(jq -n \
+  --arg path "$APP_DIR" \
+  --arg pass "${DB_PASSWORD}" \
+  '{"local_path":$path,"env_vars":{"DB_PASSWORD":$pass}}')
 
 curl -s -X POST http://localhost:10850/api/v1/apps/install \
   -H "X-Api-Key: $GATEWAY_API_KEY" \
   -H "Content-Type: application/json" \
-  -d "{
-    \"local_path\": \"${APP_DIR}\",
-    \"env_vars\": {
-      \"DB_PASSWORD\": \"${DB_PASSWORD}\"
-    }
-  }" | jq
+  -d "$body" | jq
