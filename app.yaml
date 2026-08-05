@@ -1,6 +1,6 @@
 apiVersion: v1
 name: agent-note
-version: 1.0.0
+version: 1.0.1
 description: Personal notes app with AI agent via Telegram
 author: 0xMaxMa
 
@@ -13,6 +13,7 @@ services:
     ports:
       - name: web
         container: 4000
+        host: 4000
         type: web
     environment:
       - DATABASE_URL=postgres://notes:${DB_PASSWORD}@db:5432/notes
